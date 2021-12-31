@@ -3,14 +3,14 @@
       <el-col :span="8" style="margin-top: 20px">
           <el-card shadow="hover" class="admin">
               <div class="user">
-                  <img :src="userImg">
+                  <img :src="user.iconPath">
                   <div class="userInfo">
                       <p class="name">ZhangZ</p>
-                      <p class="access">张张</p>
+                      <p class="access">{{user.name}}</p>
                   </div>
               </div>
               <div class="login-info">
-                  <p>上次登录时间：<span>2021-12-26</span></p>
+                  <p>上次登录时间：<span>{{user.loginTime}}</span></p>
                   <p>上次登录地点：<span>石家庄</span></p>
               </div>
           </el-card>
@@ -58,11 +58,11 @@
 </template>
 
 <script>
+
   export default {
       
     data() {
         return {
-            userImg: require('../../assets/lover.jpg'),
             tableData: [
                 {
                     name: 'oppo',
@@ -117,6 +117,7 @@
             ]
         }
     },
+    props: ['user']
   }
 </script>
 

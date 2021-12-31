@@ -5,10 +5,11 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
+      router
       >
     <h3>{{title}}</h3>
     <el-menu-item 
-      :index="item.path" 
+      :index="item.path+''" 
       v-for="item in noChildren"
       :key="item.path"
       @click="clickMenu(item)">
@@ -16,17 +17,18 @@
       <span slot="title">{{item.label}}</span>
     </el-menu-item>
     <el-submenu 
-      :index="item.label" 
+      :index="item.path+''" 
       v-for="item in hasChildren" 
-      :key="item.path">
+      :key="item.path"
+      @click="clickMenu(item)">
       <template slot="title">
         <i :class="'el-icon-'+item.icon"></i>
         <span slot="title">{{item.label}}</span>
       </template>
       <el-menu-item-group>
         <el-menu-item
-          :index="subItem.path"
-          v-for="(subItem) in item.children" 
+          :index="subItem.path+''"
+          v-for="subItem in item.children" 
           :key="subItem.path"
           @click="clickMenu(subItem)">
           <i :class="'el-icon-'+subItem.icon"></i>
@@ -44,7 +46,8 @@
       return {
         menu: [
           {
-            path: '/',
+            //  这里先将 path 设置为 / 完成登录以后再改为 home
+            path: '/home',
             name: 'home',
             label: '首页',
             icon: 's-home',
@@ -77,32 +80,12 @@
               }
             ]
           },
-          {
-            label: '其他',
-            icon: 'location',
-            children: [
-              {
-                path: '/page1',
-                name: 'page1',
-                label: '页面1',
-                icon: 'setting',
-                url: 'Other/PageOne'
-              },
-              {
-                path: '/page2',
-                name: 'page2',
-                label: '页面2',
-                icon: 'setting',
-                url: 'Other/PageTwo'
-              }
-            ]
-          },
         ]
       };
     },
     methods: {
       clickMenu(item){
-        this.$router.push({name: item.name})
+        this.$store.commit('SELECT_MENU',item)
       }
     },
     computed: {

@@ -6,12 +6,19 @@
             size="mini"
             @click="changeAsideState">
           </el-button>
-          <h3 style="color: #fff">首页</h3>
+          <el-breadcrumb>
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item 
+              :to="currentMenu.path"
+              v-if="currentMenu">
+                {{currentMenu.label}}
+            </el-breadcrumb-item>
+          </el-breadcrumb>
       </div>
       <div class="r-content">
           <el-dropdown trigger="click" size="mini">
               <span class="el-dropdown-link">
-                  <img :src="userImg" class="user">
+                  <img :src="user.iconPath" class="user">
               </span>
                <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>个人中心</el-dropdown-item>
@@ -23,18 +30,18 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   export default {
       name: 'CommonHeader',
-      data() {
-          return {
-              userImg: require('../../assets/lover.jpg')
-          }
-      },
       methods:{
           changeAsideState(){
               this.$store.commit('CHANGE_STATE')
           }
-      }
+      },
+      computed: {
+          ...mapState(['currentMenu'])
+      },
+      props: ['user']
   }
 </script>
 
@@ -58,5 +65,16 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
+  }
+</style>
+
+<style scoped>
+ .el-breadcrumb__item .el-breadcrumb__inner{
+      color: #666;
+      font-weight: normal;  
+  }
+
+  .el-breadcrumb__item:last-child .el-breadcrumb__inner{
+      color: white;
   }
 </style>

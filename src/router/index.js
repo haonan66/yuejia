@@ -3,6 +3,11 @@ import VueRouter from 'vue-router'
 import Main from '../pages/Main'
 import List from '../pages/User/List'
 import Add from '../pages/User/Add'
+import Home from '../pages/Home/Home'
+import Article from '../pages/Article/Article'
+import Login from '../pages/Login/Login'
+
+// import Login from '../pages/Login/Login'
 
 Vue.use(VueRouter)
 
@@ -12,40 +17,65 @@ VueRouter.prototype.push = function push(location) {
     return originalPush.call(this,location).catch(err => err)
 }
 
-export default new VueRouter({
+const router = new VueRouter({
     routes: [
         {
-            name: 'main',
             path: '/',
+            redirect: '/login',
+        },
+        {
+            path: '/login',
+            component: Login
+        },
+        {
+            name: 'main',
+            path: '/main',
             component: Main,
+            redirect: '/home',
             children: [
                 {
-                    path: 'home',
+                    //  这里先将 path 设置为 / 完成登录以后再改为 home
+                    path: '/home',
                     name: 'home',
-                    component: () => import('../pages/Home/Home')
+                    component: Home
                 },
                 {
-                    path: 'article',
+                    path: '/article',
                     name: 'article',
-                    component: () => import('../pages/Article/Article')
+                    component: Article
                 },
-                {          
-                    name: 'user',
-                    path: 'user',
-                    children: [
-                        {
-                            name: 'list',
-                            path: 'list',
-                            component: List
-                        },
-                        {
-                            name: 'add',
-                            path: 'add',
-                            component: Add
-                        }
-                    ]
+                {
+                    name: 'list',
+                    path: '/user/list',
+                    component: List,
+                },
+                {
+                    name: 'add',
+                    path: '/user/add',
+                    component: Add,
+                },
+                {
+                    name: 'edit',
+                    path: '/user/edit/:id',
+                    component: Add,
+                    hidden: true
+
                 }
             ]
         }
     ]
 })
+
+//  挂载路由导航守卫
+router.beforeEach((to,from,next)=>{
+    if(to.path === '/login') {
+        next()
+    }
+    const token = sessionStorage.getItem('token')
+    if(!token) {
+        return next('/login')
+    }
+    next()
+})
+
+export default router

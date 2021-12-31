@@ -3,6 +3,6 @@ export default {
     baseUrl: {
         //  开发环境
         dev: '/api/',
-        pro: ''
+        pro: '/user/'
     }
 }
