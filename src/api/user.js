@@ -4,7 +4,7 @@ export default {
   //  用户列表
   getUserList(current, limit, searchObj) {
     return request({
-      url: `/admin/user/userManager/findPage/${current}/${limit}`,
+      url: `/user/userManager/findPage/${current}/${limit}`,
       method: 'post',
       //  使用 json
       data: searchObj
@@ -13,14 +13,14 @@ export default {
   //  删除用户
   deleteUser(id) {
     return request({
-      url: `/admin/user/userManager/${id}`,
+      url: `/user/userManager/${id}`,
       method: 'delete'
     })
   },
   //  批量删除的方法
   batchRemoveUsers(idList) {
     return request({
-      url: `/admin/user/userManager/batchRemove`,
+      url: `/user/userManager/batchRemove`,
       method: 'delete',
       data: idList
     })
@@ -28,14 +28,14 @@ export default {
   //  封禁和取消封禁
   banUser(id, status) {
     return request({
-      url: `/admin/user/userManager/banUser/${id}/${status}`,
+      url: `/user/userManager/banUser/${id}/${status}`,
       method: 'put'
     })
   },
   //  添加用户
   saveUser(user) {
     return request({
-      url: `/admin/user/userManager/saveUser`,
+      url: `/user/userManager/saveUser`,
       method: 'post',
       data: user
     })
@@ -43,14 +43,14 @@ export default {
   //  通过 id 查询用户
   getUser(id) {
     return request({
-      url: `/admin/user/userManager/getUser/${id}`,
+      url: `/user/userManager/getUser/${id}`,
       method: 'get'
     })
   },
   //  修改用户
   updateUser(user) {
     return request({
-      url: `/admin/user/userManager/updateUser`,
+      url: `/user/userManager/updateUser`,
       method: 'post',
       data: user
     })
@@ -58,7 +58,7 @@ export default {
   //  上传头像
   upload(user) {
     return request({
-      url: `/admin/user/userManager/upload`,
+      url: `/user/userManager/upload`,
       method: 'post',
       data: user
     })

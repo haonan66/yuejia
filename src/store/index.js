@@ -24,6 +24,10 @@ const mutations = {
         let result = state.tabsList.findIndex(item => item.name === value.name)
         state.tabsList.splice(result,1)
         // state.currentMenu = value
+    },
+    UPDATE_ADMIN(state,value){
+        //  更新 admin 信息
+        state.admin = value
     }
 }
 
@@ -37,7 +41,9 @@ const state = {
             icon: 'home'
         }
     ],
-    currentMenu: null
+    currentMenu: null,
+    //  登录后的管理员信息
+    admin: {}
 }
 
 export default new Vuex.Store({

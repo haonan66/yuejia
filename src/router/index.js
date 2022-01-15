@@ -6,6 +6,9 @@ import Add from '../pages/User/Add'
 import Home from '../pages/Home/Home'
 import Article from '../pages/Article/Article'
 import Login from '../pages/Login/Login'
+import PersonalCenter from '../pages/Admin/PersonalCenter'
+import TeamList from '../pages/Team/TeamList'
+import Identity from '../pages/User/Identity'
 
 // import Login from '../pages/Login/Login'
 
@@ -34,7 +37,6 @@ const router = new VueRouter({
             redirect: '/home',
             children: [
                 {
-                    //  这里先将 path 设置为 / 完成登录以后再改为 home
                     path: '/home',
                     name: 'home',
                     component: Home
@@ -59,8 +61,23 @@ const router = new VueRouter({
                     path: '/user/edit/:id',
                     component: Add,
                     hidden: true
-
-                }
+                },
+                {
+                    name: 'personalCenter',
+                    path: '/admin/personalCenter',
+                    component: PersonalCenter,
+                    hidden: true
+                },
+                {
+                    name: 'teamList',
+                    path: '/team/list',
+                    component: TeamList,
+                },
+                {
+                    name: 'identity',
+                    path: '/user/identity',
+                    component: Identity,
+                },
             ]
         }
     ]
@@ -68,11 +85,14 @@ const router = new VueRouter({
 
 //  挂载路由导航守卫
 router.beforeEach((to,from,next)=>{
+    const token = sessionStorage.getItem('token')
+
     if(to.path === '/login') {
+        sessionStorage.removeItem('token')
         next()
     }
-    const token = sessionStorage.getItem('token')
     if(!token) {
+        sessionStorage.removeItem('token')
         return next('/login')
     }
     next()
